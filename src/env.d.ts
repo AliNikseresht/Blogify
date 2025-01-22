@@ -1,15 +1,15 @@
-declare global {
-  namespace NodeJS {
-    interface ProcessEnv {
-      VITE_FIREBASE_API_KEY: string;
-      VITE_FIREBASE_AUTH_DOMAIN: string;
-      VITE_FIREBASE_PROJECT_ID: string;
-      VITE_FIREBASE_STORAGE_BUCKET: string;
-      VITE_FIREBASE_MESSAGING_SENDER_ID: string;
-      VITE_FIREBASE_APP_ID: string;
-      VITE_FIREBASE_MEASUREMENT_ID: string;
-    }
-  }
+/// <reference types="vite/client" />
+
+interface ImportMetaEnv {
+  readonly VITE_FIREBASE_API_KEY: string;
+  readonly VITE_FIREBASE_AUTH_DOMAIN: string;
+  readonly VITE_FIREBASE_PROJECT_ID: string;
+  readonly VITE_MESSAGIN_SENDER_ID: string;
+  readonly VITE_APP_ID: string;
+  readonly VITE_MEASUREMENT_ID: string;
+  readonly VITE_STORAGE_BUCKET: string;
 }
 
-export {};
+interface ImportMeta {
+  readonly env: ImportMetaEnv;
+}
