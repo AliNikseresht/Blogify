@@ -7,6 +7,14 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
+# Build output
+dist/
+build/
+out/
+
+# Firebase service account keys (do not commit these to your repository)
+firebase-service-account.json
+
 .env
 node_modules
 dist
