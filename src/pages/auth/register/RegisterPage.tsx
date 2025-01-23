@@ -1,8 +1,22 @@
+import { FieldValues } from "react-hook-form";
+import { auth_data } from "../../../data/auth";
+import AuthForm from "../_components/AuthForm";
 
 const RegisterPage = () => {
-  return (
-    <div>RegisterPage</div>
-  )
-}
+  const submitFunction = (data: FieldValues) => {
+    console.log("Submitted Data:", data);
+  };
 
-export default RegisterPage
+  const loading = false;
+  return (
+    <div className="flex items-center h-full w-full">
+      <AuthForm
+        auth_data={auth_data.register}
+        loading={loading}
+        submitFunction={submitFunction}
+      />
+    </div>
+  );
+};
+
+export default RegisterPage;

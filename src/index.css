@@ -33,6 +33,14 @@ body {
   color: #ffffff;
 }
 
+.c-gray {
+  color: #6f6f6f;
+}
+
+.c-red {
+  color: #ff0000;
+}
+
 .border-green {
   border-color: #6eeb83;
 }
