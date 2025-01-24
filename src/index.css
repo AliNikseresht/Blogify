@@ -7,3 +7,48 @@
   padding: 0;
   box-sizing: border-box;
 }
+
+body {
+  background: #272727;
+  color: #ffffff;
+}
+
+.bc-black {
+  background: #272727;
+}
+
+.bc-green {
+  background: #6eeb83;
+}
+
+.c-green {
+  color: #6eeb83;
+}
+
+.c-black {
+  color: #212121;
+}
+
+.c-white {
+  color: #ffffff;
+}
+
+.c-gray {
+  color: #6f6f6f;
+}
+
+.c-red {
+  color: #ff0000;
+}
+
+.border-green {
+  border-color: #6eeb83;
+}
+
+.border-black {
+  border-color: #212121;
+}
+
+.border-white {
+  border-color: #ffffff;
+}
