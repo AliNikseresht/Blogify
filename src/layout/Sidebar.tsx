@@ -93,7 +93,7 @@ const Sidebar = () => {
             className={`block w-full py-2 px-4 text-center mb-2 rounded-md ${
               item.title === "Register"
                 ? "c-black bc-green"
-                : "c-green border border-green"
+                : "c-green border border-green bc-black"
             }`}
           >
             {item.title}
