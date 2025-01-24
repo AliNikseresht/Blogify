@@ -16,8 +16,6 @@ out/
 firebase-service-account.json
 
 .env
-.env.local
-.env.production
 node_modules
 dist
 dist-ssr
