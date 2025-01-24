@@ -1,5 +1,8 @@
 {
   "projects": {
-    "default": "blogify-ae866"
-  }
+    "default": "blogify-2840e",
+    "blogify": "blogify-2840e"
+  },
+  "targets": {},
+  "etags": {}
 }
