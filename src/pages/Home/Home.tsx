@@ -2,8 +2,17 @@ import { useEffect, useState } from "react";
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "../../config/firebaseConfig";
 
+interface Blog {
+  id: string;
+  title: string;
+  content: string;
+  author: string;
+  tags: string[];
+  createdAt: { seconds: number };
+}
+
 const Home = () => {
-  const [blogs, setBlogs] = useState([]);
+  const [blogs, setBlogs] = useState<Blog[]>([]);
 
   useEffect(() => {
     const fetchBlogs = async () => {
@@ -12,7 +21,7 @@ const Home = () => {
         const blogsData = querySnapshot.docs.map((doc) => ({
           id: doc.id,
           ...doc.data(),
-        }));
+        })) as Blog[];
         setBlogs(blogsData);
         console.log(blogsData);
       } catch (error) {
@@ -20,7 +29,6 @@ const Home = () => {
       }
     };
 
-    
     fetchBlogs();
   }, []);
 
