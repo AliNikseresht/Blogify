@@ -42,8 +42,8 @@ const Sidebar = () => {
   }
 
   return (
-    <>
-      <div className="w-[7.5rem] border-r border-green hidden md:flex flex-col items-center justify-between py-[6.5em] z-20 bc-black">
+    <div className="sidebar fixed start-0 top-0 w-[240px] z-50 transition-all">
+      <div className="w-[7.5rem] border-r border-green hidden md:flex flex-col items-center justify-between py-[6.5em] z-20 bc-black h-screen">
         <div className="flex flex-col items-center justify-between h-full">
           <Link to={layoutData.sidebar.link}>
             <h1 className="text-2xl font-semibold font-mono">
@@ -79,9 +79,9 @@ const Sidebar = () => {
       <div
         ref={menuRef}
         className={`absolute bottom-16 left-0 rounded-e-md p-3 
-        transform transition-transform duration-500 ease-in-out z-10 ${
+        transform transition-transform duration-500 ease-in-out -z-10 ${
           showUserMenu
-            ? "translate-x-[7.03em] opacity-100"
+            ? "translate-x-[8.3em] opacity-100"
             : "-translate-x-full opacity-100"
         }`}
       >
@@ -100,7 +100,7 @@ const Sidebar = () => {
           </Link>
         ))}
       </div>
-    </>
+    </div>
   );
 };
 

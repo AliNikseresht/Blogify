@@ -1,18 +1,29 @@
-import { Outlet } from "react-router-dom";
+import { Outlet, useLocation } from "react-router-dom";
 import Sidebar from "./Sidebar";
 import MenuMobile from "./Sidebar/MenuMobile";
 import Footer from "./Footer";
 
 const Layout = () => {
+  const location = useLocation();
+
+  const isAuthRoute =
+    location.pathname === "/login" || location.pathname === "/register";
+
   return (
-    <div className="flex h-screen">
-      <Sidebar />
-      <div className="flex flex-col w-full p-4">
-        <div className="flex-1 h-full overflow-auto">
-          <Outlet />
+    <div className="relative text-sm font-normal">
+      <div>
+        {!isAuthRoute && <Sidebar />}
+        <div
+          className={`transition-all w-[calc(100vw_-_140px)] ${
+            isAuthRoute ? "" : "ms-auto"
+          }`}
+        >
+          <div className="min-h-screen relative">
+            <Outlet />
+          </div>
+          {!isAuthRoute && <Footer />}
+          {!isAuthRoute && <MenuMobile />}
         </div>
-        <Footer />
-        <MenuMobile />
       </div>
     </div>
   );

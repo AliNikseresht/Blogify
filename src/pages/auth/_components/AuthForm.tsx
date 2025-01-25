@@ -20,7 +20,7 @@ const AuthForm = ({ auth_data, submitFunction, loading }: Props) => {
 
   return (
     <div className="w-full flex items-center justify-center md:justify-between">
-      <div className="w-[33%] h-[630px] hidden md:flex relative">
+      <div className="w-[33%] h-screen hidden md:flex relative">
         <img
           src={SidePhoto}
           alt="side background"
