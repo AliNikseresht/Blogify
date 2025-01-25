@@ -10,6 +10,7 @@ type Props = {
 };
 
 const AuthForm = ({ auth_data, submitFunction, loading }: Props) => {
+  //hooks
   const {
     register,
     handleSubmit,
