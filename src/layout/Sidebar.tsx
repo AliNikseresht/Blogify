@@ -1,19 +1,35 @@
 import { FiSearch } from "react-icons/fi";
 import { FaRegUser } from "react-icons/fa6";
 import { useEffect, useRef, useState } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { layoutData } from "../data/layout";
+import { useAuth } from "../hooks/AuthContext";
+import { toast } from "react-toastify";
 
 const Sidebar = () => {
   const [showUserMenu, setShowUserMenu] = useState(false);
   const menuRef = useRef<HTMLDivElement | null>(null);
   const location = useLocation();
+  const navigate = useNavigate();
+  const { user } = useAuth();
 
   const hideSidebarPaths = ["/login", "/register"];
   const shouldHideSidebar = hideSidebarPaths.includes(location.pathname);
 
   const handleUserIconClick = () => {
-    setShowUserMenu((prev) => !prev);
+    if (user) {
+      navigate("/profile");
+    } else {
+      setShowUserMenu((prev) => !prev);
+    }
+  };
+
+  const handleCreateClick = () => {
+    if (!user) {
+      toast.error("You must create an account to create a blog!");
+    } else {
+      navigate("/create");
+    }
   };
 
   useEffect(() => {
@@ -51,12 +67,29 @@ const Sidebar = () => {
             </h1>
           </Link>
           {layoutData.sidebar.navbar.map((item, index) => (
-            <Link to={item.link} key={index}>
-              <ul className="flex flex-col items-center justify-center">
-                <li className="c-green text-2xl cursor-pointer">{item.icon}</li>
-                <li className="text-base cursor-pointer">{item.title}</li>
-              </ul>
-            </Link>
+            <ul
+              key={index}
+              className="flex flex-col items-center justify-center"
+            >
+              {item.title === "Create" ? (
+                <div
+                  onClick={handleCreateClick}
+                  className="flex flex-col items-center"
+                >
+                  <li className="c-green text-2xl cursor-pointer">
+                    {item.icon}
+                  </li>
+                  <li className="text-base cursor-pointer">{item.title}</li>
+                </div>
+              ) : (
+                <Link to={item.link} className="flex flex-col items-center">
+                  <li className="c-green text-2xl cursor-pointer">
+                    {item.icon}
+                  </li>
+                  <li className="text-base cursor-pointer">{item.title}</li>
+                </Link>
+              )}
+            </ul>
           ))}
 
           <ul className="flex flex-col items-center justify-center">
@@ -72,34 +105,39 @@ const Sidebar = () => {
             >
               <FaRegUser />
             </li>
+            {user ? (
+              <li className="text-xs mt-2">{user.displayName || "nickname"}</li>
+            ) : null}
           </ul>
         </div>
       </div>
 
-      <div
-        ref={menuRef}
-        className={`absolute bottom-16 left-0 rounded-e-md p-3 
-        transform transition-transform duration-500 ease-in-out -z-10 ${
-          showUserMenu
-            ? "translate-x-[8.3em] opacity-100"
-            : "-translate-x-full opacity-100"
-        }`}
-      >
-        {layoutData.sidebar.auth.map((item, index) => (
-          <Link
-            key={index}
-            to={item.link}
-            onClick={handleCloseMenu}
-            className={`block w-full py-2 px-4 text-center mb-2 rounded-md ${
-              item.title === "Register"
-                ? "c-black bc-green"
-                : "c-green border border-green bc-black"
-            }`}
-          >
-            {item.title}
-          </Link>
-        ))}
-      </div>
+      {!user && (
+        <div
+          ref={menuRef}
+          className={`absolute bottom-16 left-0 rounded-e-md p-3 
+          transform transition-transform duration-500 ease-in-out -z-10 ${
+            showUserMenu
+              ? "translate-x-[8.3em] opacity-100"
+              : "-translate-x-full opacity-100"
+          }`}
+        >
+          {layoutData.sidebar.auth.map((item, index) => (
+            <Link
+              key={index}
+              to={item.link}
+              onClick={handleCloseMenu}
+              className={`block w-full py-2 px-4 text-center mb-2 rounded-md ${
+                item.title === "Register"
+                  ? "c-black bc-green"
+                  : "c-green border border-green bc-black"
+              }`}
+            >
+              {item.title}
+            </Link>
+          ))}
+        </div>
+      )}
     </div>
   );
 };
