@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "../../config/firebaseConfig";
+import { IoMdInformationCircleOutline } from "react-icons/io";
+import { homeData } from "../../data/home";
 
 interface Blog {
   id: string;
@@ -46,13 +48,23 @@ const Home = () => {
   }
 
   return (
-    <div className="flex flex-col p-[0em] md:p-[3em] gap-[2em]">
+    <div className="flex flex-col p-[0em] md:p-[3em] gap-[2em] min-h-screen">
       <div className="flex flex-col items-center md:w-10">
         <div className="w-4 h-0.5 bc-green"></div>
-        <h1>Latest</h1>
+        <h1>{homeData.title}</h1>
       </div>
       {blogs.length === 0 ? (
-        <p className="text-center text-lg font-medium">There is no blog.</p>
+        <div className="flex justify-center flex-col items-center mt-[16em]">
+          <p className="text-center text-lg font-medium">
+            {homeData.NoBlogText}
+          </p>
+          <div className="flex items-center text-lg gap-0.5 c-green">
+            <IoMdInformationCircleOutline />
+            <span className="text-sm mb-[0.11em] c-white">
+              {homeData.VPNText}
+            </span>
+          </div>
+        </div>
       ) : (
         blogs.map((blog) => (
           <div key={blog.id} className="flex items-start md:h-[13rem] mb-4">
@@ -66,7 +78,7 @@ const Home = () => {
                   }
                 )}
               </p>
-              <p className="-rotate-90 absolute -left-6 bottom-5 text-xs w-36 text-center c-gray">
+              <p className="-rotate-90 absolute -left-[2.05em] bottom-5 text-xs w-36 text-right c-gray">
                 {blog.author}
               </p>
             </div>
@@ -82,13 +94,11 @@ const Home = () => {
                     {
                       day: "numeric",
                       month: "short",
-                      year:"numeric"
+                      year: "numeric",
                     }
                   )}
                 </p>
-                <p className="text-center text-sm c-gray">
-                  {blog.author}
-                </p>
+                <p className="text-center text-sm c-gray">{blog.author}</p>
               </div>
               <div className="flex flex-wrap gap-2">
                 {blog.tags.map((tagItem, index) => (
