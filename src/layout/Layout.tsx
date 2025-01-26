@@ -14,7 +14,7 @@ const Layout = () => {
       <div>
         {!isAuthRoute && <Sidebar />}
         <div
-          className={`transition-all w-[calc(100vw_-_140px)] ${
+          className={`transition-all p-3.5 md:p-0 md:w-[calc(100vw_-_140px)] ${
             isAuthRoute ? "" : "ms-auto"
           }`}
         >
