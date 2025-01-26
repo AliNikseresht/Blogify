@@ -1,51 +1,14 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { homeData } from "../../data/home";
 import BlogCard from "./_components/BlogCard";
 import EmptyState from "./_components/EmptyState";
 import Loading from "../../components/ui/Loading";
-import { fetchBlogs } from "../../services/blogService";
-import { TBlog } from "../../types/home";
+import { useBlogs } from "../../hooks/useBlogs";
 
 const Home = () => {
-  // state
-  const [blogs, setBlogs] = useState<TBlog[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [isLoadingMore, setIsLoadingMore] = useState(false);
-  const [lastDoc, setLastDoc] = useState<any>(null);
+  const { blogs, loading, isLoadingMore, loadMoreBlogs } = useBlogs();
 
-  useEffect(() => {
-    const loadBlogs = async () => {
-      try {
-        const { blogs: blogsData, lastDoc } = await fetchBlogs();
-        setBlogs(blogsData);
-        setLastDoc(lastDoc);
-      } catch (error) {
-        console.error("Error loading blogs:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    loadBlogs();
-  }, []);
-
-  const loadMoreBlogs = async () => {
-    if (isLoadingMore || !lastDoc) return;
-
-    setIsLoadingMore(true);
-    try {
-      const { blogs: moreBlogs, lastDoc: newLastDoc } = await fetchBlogs(
-        lastDoc
-      );
-      setBlogs((prevBlogs) => [...prevBlogs, ...moreBlogs]);
-      setLastDoc(newLastDoc);
-    } catch (error) {
-      console.error("Error loading more blogs:", error);
-    } finally {
-      setIsLoadingMore(false);
-    }
-  };
-
+  // Infinite Scroll handling
   useEffect(() => {
     const handleScroll = () => {
       if (
@@ -60,9 +23,9 @@ const Home = () => {
     return () => {
       window.removeEventListener("scroll", handleScroll);
     };
-  }, [lastDoc, isLoadingMore]);
+  }, [loadMoreBlogs]);
 
-  // loading
+  // Loading
   if (loading) {
     return <Loading />;
   }

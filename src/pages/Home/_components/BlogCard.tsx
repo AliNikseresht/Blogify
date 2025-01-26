@@ -19,7 +19,7 @@ const BlogCard = ({ blog }: { blog: TBlog }) => {
         </p>
       </div>
       <div className="flex flex-col justify-between h-full w-full">
-        <h2 className="c-green md:text-3xl font-semibold">{blog.title}</h2>
+        <h2 className="c-green md:text-4xl font-semibold">{blog.title}</h2>
         <p className="text-xs md:text-sm my-3">
           {blog.content.length > MAX_CONTENT_LENGTH
             ? `${blog.content.slice(0, MAX_CONTENT_LENGTH)}...`
