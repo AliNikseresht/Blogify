@@ -18,7 +18,7 @@ const Sidebar = () => {
 
   const handleUserIconClick = () => {
     if (user) {
-      navigate("/profile");
+      navigate("/");
     } else {
       setShowUserMenu((prev) => !prev);
     }
