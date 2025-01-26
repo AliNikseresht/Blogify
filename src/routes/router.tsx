@@ -49,12 +49,12 @@ export const privateMainRoutes: MainRoute[] = [
     title: "Create",
   },
   {
-    path: "/blog/:blogid",
+    path: "/blog/:id",
     element: <ViewBlog />,
     title: "View",
   },
   {
-    path: "/blog/:blogid/edit",
+    path: "/blog/:id/edit",
     element: <EditBlog />,
     title: "Edit",
   },

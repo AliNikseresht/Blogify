@@ -12,7 +12,7 @@ const Sidebar = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const { user } = useAuth();
-
+  const MAX_AUTHOR_LENGTH = 11;
   const hideSidebarPaths = ["/login", "/register"];
   const shouldHideSidebar = hideSidebarPaths.includes(location.pathname);
 
@@ -105,9 +105,13 @@ const Sidebar = () => {
             >
               <FaRegUser />
             </li>
-            {user ? (
-              <li className="text-xs mt-2">{user.displayName || "nickname"}</li>
-            ) : null}
+            <li className="text-xs mt-2">
+              {user?.email
+                ? user.email.length > MAX_AUTHOR_LENGTH
+                  ? `${user.email.slice(0, MAX_AUTHOR_LENGTH)}...`
+                  : user.email
+                : "Anonymous"}
+            </li>
           </ul>
         </div>
       </div>

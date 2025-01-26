@@ -7,17 +7,18 @@ import { fetchBlogs } from "../../services/blogService";
 import { TBlog } from "../../types/home";
 
 const Home = () => {
-  //state
+  // state
   const [blogs, setBlogs] = useState<TBlog[]>([]);
   const [loading, setLoading] = useState(true);
+  const [isLoadingMore, setIsLoadingMore] = useState(false);
+  const [lastDoc, setLastDoc] = useState<any>(null);
 
-  //service
   useEffect(() => {
     const loadBlogs = async () => {
       try {
-        const blogsData = await fetchBlogs();
+        const { blogs: blogsData, lastDoc } = await fetchBlogs();
         setBlogs(blogsData);
-        console.log(blogsData);
+        setLastDoc(lastDoc);
       } catch (error) {
         console.error("Error loading blogs:", error);
       } finally {
@@ -28,7 +29,40 @@ const Home = () => {
     loadBlogs();
   }, []);
 
-  //loading
+  const loadMoreBlogs = async () => {
+    if (isLoadingMore || !lastDoc) return;
+
+    setIsLoadingMore(true);
+    try {
+      const { blogs: moreBlogs, lastDoc: newLastDoc } = await fetchBlogs(
+        lastDoc
+      );
+      setBlogs((prevBlogs) => [...prevBlogs, ...moreBlogs]);
+      setLastDoc(newLastDoc);
+    } catch (error) {
+      console.error("Error loading more blogs:", error);
+    } finally {
+      setIsLoadingMore(false);
+    }
+  };
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (
+        window.innerHeight + window.scrollY >=
+        document.documentElement.scrollHeight - 200
+      ) {
+        loadMoreBlogs();
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, [lastDoc, isLoadingMore]);
+
+  // loading
   if (loading) {
     return <Loading />;
   }
@@ -43,6 +77,11 @@ const Home = () => {
         <EmptyState />
       ) : (
         blogs.map((blog) => <BlogCard key={blog.id} blog={blog} />)
+      )}
+      {isLoadingMore && (
+        <div className="flex justify-center my-4">
+          <Loading />
+        </div>
       )}
     </div>
   );
