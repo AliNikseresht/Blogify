@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { TBlog } from "../../types/home";
-import { trendingBlogsService } from "../../services/TrendingBlogsService";
 import Loading from "../../components/ui/Loading";
 import BlogCard from "../Home/_components/BlogCard";
+import { trenBlogsService } from "../../services/trendBlogService";
 
 const TrendPage = () => {
   //state
@@ -15,7 +15,7 @@ const TrendPage = () => {
   useEffect(() => {
     const loadTrendingBlogs = async () => {
       try {
-        const { blogs: blogsData, lastDoc } = await trendingBlogsService();
+        const { blogs: blogsData, lastDoc } = await trenBlogsService();
         setBlogs(blogsData);
         setLastDoc(lastDoc);
       } catch (error) {
@@ -35,7 +35,7 @@ const TrendPage = () => {
     setIsLoadingMore(true);
     try {
       const { blogs: moreBlogs, lastDoc: newLastDoc } =
-        await trendingBlogsService(lastDoc);
+        await trenBlogsService(lastDoc);
       setBlogs((prevBlogs) => [...prevBlogs, ...moreBlogs]);
       setLastDoc(newLastDoc);
     } catch (error) {

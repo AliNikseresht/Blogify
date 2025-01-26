@@ -10,7 +10,7 @@ import {
 import { db } from "../config/firebaseConfig";
 import { TBlog } from "../types/home";
 
-export const trendingBlogsService = async (
+export const trenBlogsService = async (
   lastVisible?: any,
   pageSize: number = 5
 ): Promise<{ blogs: TBlog[]; lastDoc: any }> => {
