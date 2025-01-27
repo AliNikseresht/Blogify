@@ -27,7 +27,7 @@ const RegisterPage = () => {
 
   const loading = false;
   return (
-    <div className="flex items-center h-full w-full">
+    <div className="flex items-center h-screen w-full">
       <AuthForm
         auth_data={auth_data.register}
         loading={loading}

@@ -7,12 +7,12 @@ import { db } from "../config/firebaseConfig";
 const useCreateBlog = () => {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
-  const [tags, setTags] = useState("");
+  const [tags, setTags] = useState<string[]>([]);
   const { user } = useAuth();
   const [isPreview, setIsPreview] = useState(false);
 
   const handleSubmit = async () => {
-    if (!title || !content || !tags) {
+    if (!title || !content || tags.length === 0) {
       toast.error("All fields are required!");
       return;
     }
@@ -21,14 +21,14 @@ const useCreateBlog = () => {
       await addDoc(collection(db, "Blogs"), {
         title,
         content,
-        tags: tags.split(",").map((tag) => tag.trim()),
+        tags,
         author: user?.displayName || user?.email || "Anonymous",
         createdAt: serverTimestamp(),
       });
       toast.success("Blog created successfully!");
       setTitle("");
       setContent("");
-      setTags("");
+      setTags([]);
       setIsPreview(false);
     } catch (error) {
       console.error("Error creating blog: ", error);
