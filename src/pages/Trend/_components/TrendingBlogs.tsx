@@ -21,9 +21,9 @@ const TrendingBlogs: React.FC<TrendingBlogsProps> = ({
 
   return (
     <div className="flex flex-col p-[0em] md:p-[3em] gap-[2em] min-h-screen">
-      <div className="flex flex-col items-center md:w-[7rem]">
+      <div className="flex flex-col items-center md:w-[8.5rem]">
         <div className="w-20 mb-0.5 h-0.5 bc-green"></div>
-        <h1 className="text-lg md:text-base">{trendData.title}</h1>
+        <h1 className="text-lg md:text-xl">{trendData.title}</h1>
       </div>
       {blogs.length === 0 ? (
         <EmptyState />
