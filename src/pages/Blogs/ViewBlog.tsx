@@ -6,11 +6,15 @@ import { blogByIdService } from "../../services/blogByIdService";
 import formatDate from "../../utils/formatDate";
 
 const ViewBlog = () => {
-  const navigate = useNavigate();
-  const { id } = useParams<{ id: string }>();
+  //state
   const [blog, setBlog] = useState<TBlog | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
 
+  //hooks
+  const navigate = useNavigate();
+  const { id } = useParams<{ id: string }>();
+
+  //services
   useEffect(() => {
     const loadBlog = async () => {
       try {
@@ -28,6 +32,7 @@ const ViewBlog = () => {
     loadBlog();
   }, [id]);
 
+  //loading
   if (loading) {
     return <Loading />;
   }

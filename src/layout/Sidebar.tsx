@@ -7,15 +7,19 @@ import { useAuth } from "../hooks/AuthContext";
 import { toast } from "react-toastify";
 
 const Sidebar = () => {
+  //state
   const [showUserMenu, setShowUserMenu] = useState(false);
+  const MAX_AUTHOR_LENGTH = 11;
+
+  //hooks
   const menuRef = useRef<HTMLDivElement | null>(null);
   const location = useLocation();
   const navigate = useNavigate();
   const { user } = useAuth();
-  const MAX_AUTHOR_LENGTH = 11;
   const hideSidebarPaths = ["/login", "/register"];
   const shouldHideSidebar = hideSidebarPaths.includes(location.pathname);
 
+  //handler
   const handleUserIconClick = () => {
     if (user) {
       navigate("/");
@@ -62,7 +66,7 @@ const Sidebar = () => {
       <div className="w-[7.5rem] border-r border-green hidden md:flex flex-col items-center justify-between py-[6.5em] z-20 bc-black h-screen">
         <div className="flex flex-col items-center justify-between h-full">
           <Link to={layoutData.sidebar.link}>
-            <h1 className="text-2xl font-semibold font-mono">
+            <h1 className="text-3xl font-semibold">
               {layoutData.sidebar.title}
             </h1>
           </Link>
