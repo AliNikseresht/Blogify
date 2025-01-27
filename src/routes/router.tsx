@@ -4,7 +4,6 @@ import RegisterPage from "../pages/auth/register/RegisterPage";
 import TrendPage from "../pages/Trend/TrendPage";
 import AboutPage from "../pages/About/AboutPage";
 import ViewBlog from "../pages/Blogs/ViewBlog";
-import EditBlog from "../pages/Blogs/EditBlog";
 import CreateBlog from "../pages/Blogs/CreateBlog";
 import UserProfile from "../pages/Profile/UserProfile";
 
@@ -52,10 +51,5 @@ export const privateMainRoutes: MainRoute[] = [
     path: "/blog/:id",
     element: <ViewBlog />,
     title: "View",
-  },
-  {
-    path: "/blog/:id/edit",
-    element: <EditBlog />,
-    title: "Edit",
   },
 ];
