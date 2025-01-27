@@ -19,7 +19,7 @@ export const trenBlogsService = async (
       collection(db, "Blogs"),
       orderBy("createdAt"),
       limit(pageSize),
-      where("tags", "array-contains", "Trend")
+      where("tags", "array-contains", "Trend",)
     );
 
     if (lastVisible) {

@@ -34,7 +34,7 @@ const Home = () => {
     <div className="flex flex-col p-[0em] md:p-[3em] gap-[2em] min-h-screen">
       <div className="flex flex-col items-center md:w-10">
         <div className="w-4 h-0.5 bc-green"></div>
-        <h1>{homeData.title}</h1>
+        <h1 className="text-lg md:text-base">{homeData.title}</h1>
       </div>
       {blogs.length === 0 ? (
         <EmptyState />
