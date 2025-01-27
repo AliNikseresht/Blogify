@@ -1,11 +1,13 @@
+import React from "react";
+import TagsManager from "./TagsManager";
 
 interface BlogFormProps {
   title: string;
   content: string;
-  tags: string;
+  tags: string[];
   setTitle: React.Dispatch<React.SetStateAction<string>>;
   setContent: React.Dispatch<React.SetStateAction<string>>;
-  setTags: React.Dispatch<React.SetStateAction<string>>;
+  setTags: React.Dispatch<React.SetStateAction<string[]>>;
   onSubmit: (e: React.FormEvent) => void;
 }
 
@@ -41,16 +43,7 @@ const BlogForm: React.FC<BlogFormProps> = ({
           rows={5}
         />
       </div>
-      <div className="mb-4">
-        <label className="block c-white text-sm font-bold mb-2">Tags</label>
-        <input
-          type="text"
-          className="w-full px-3 py-2 border border-green focus:outline-none bg-transparent c-white"
-          value={tags}
-          onChange={(e) => setTags(e.target.value)}
-          placeholder="e.g., React, JavaScript, Firebase"
-        />
-      </div>
+      <TagsManager tags={tags} setTags={setTags} />
       <button type="submit" className="border border-green c-green px-4 py-2">
         Preview Blog
       </button>
