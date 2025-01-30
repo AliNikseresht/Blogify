@@ -5,13 +5,10 @@ import App from "./App.tsx";
 
 import "./index.css";
 import "react-toastify/dist/ReactToastify.css";
-import { AuthProvider } from "./hooks/AuthContext.tsx";
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
-    <AuthProvider>
-      <ToastContainer />
-      <App />
-    </AuthProvider>
+    <ToastContainer />
+    <App />
   </StrictMode>
 );

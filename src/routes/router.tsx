@@ -5,7 +5,6 @@ import TrendPage from "../pages/Trend/TrendPage";
 import AboutPage from "../pages/About/AboutPage";
 import ViewBlog from "../pages/Blogs/ViewBlog";
 import CreateBlog from "../pages/Blogs/CreateBlog";
-import UserProfile from "../pages/Profile/UserProfile";
 
 export interface MainRoute {
   path: string;
@@ -37,11 +36,6 @@ export const mainRoutes: MainRoute[] = [
 ];
 
 export const privateMainRoutes: MainRoute[] = [
-  {
-    path: "/:uid",
-    element: <UserProfile />,
-    title: "Profile",
-  },
   {
     path: "/create",
     element: <CreateBlog />,
