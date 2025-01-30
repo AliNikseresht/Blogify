@@ -1,32 +1,31 @@
-import { FiSearch } from "react-icons/fi";
-import { FaRegUser } from "react-icons/fa6";
-import { useEffect, useRef, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { layoutData } from "../data/layout";
 import { useAuth } from "../hooks/AuthContext";
 import { toast } from "react-toastify";
+import useUserMenu from "../hooks/useUserMenu";
+import SidebarMenuItem from "./Sidebar/SidebarMenuItem";
+import UserMenuIcon from "./Sidebar/UserMenuIcon";
+import UserModal from "./Sidebar/UserModal";
+import AuthMenu from "./Sidebar/AuthMenu";
 
 const Sidebar = () => {
-  //state
-  const [showUserMenu, setShowUserMenu] = useState(false);
-  const MAX_AUTHOR_LENGTH = 11;
-
-  //hooks
-  const menuRef = useRef<HTMLDivElement | null>(null);
+  const { user, logout } = useAuth();
   const location = useLocation();
   const navigate = useNavigate();
-  const { user } = useAuth();
+
   const hideSidebarPaths = ["/login", "/register"];
   const shouldHideSidebar = hideSidebarPaths.includes(location.pathname);
 
-  //handler
-  const handleUserIconClick = () => {
-    if (user) {
-      navigate("/");
-    } else {
-      setShowUserMenu((prev) => !prev);
-    }
-  };
+  const {
+    showUserMenu,
+    showUserModal,
+    MAX_AUTHOR_LENGTH,
+    menuRef,
+    modalRef,
+    handleUserIconClick,
+    handleCloseModal,
+    handleCloseMenu,
+  } = useUserMenu(user, logout);
 
   const handleCreateClick = () => {
     if (!user) {
@@ -36,30 +35,7 @@ const Sidebar = () => {
     }
   };
 
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (
-        menuRef.current &&
-        !menuRef.current.contains(event.target as Node) &&
-        !event.composedPath().includes(menuRef.current)
-      ) {
-        setShowUserMenu(false);
-      }
-    };
-
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, []);
-
-  const handleCloseMenu = () => {
-    setShowUserMenu(false);
-  };
-
-  if (shouldHideSidebar) {
-    return null;
-  }
+  if (shouldHideSidebar) return null;
 
   return (
     <div className="sidebar fixed start-0 top-0 w-[240px] z-50 transition-all">
@@ -70,81 +46,38 @@ const Sidebar = () => {
               {layoutData.sidebar.title}
             </h1>
           </Link>
+
           {layoutData.sidebar.navbar.map((item, index) => (
-            <ul
+            <SidebarMenuItem
               key={index}
-              className="flex flex-col items-center justify-center"
-            >
-              {item.title === "Create" ? (
-                <div
-                  onClick={handleCreateClick}
-                  className="flex flex-col items-center"
-                >
-                  <li className="c-green text-2xl cursor-pointer">
-                    {item.icon}
-                  </li>
-                  <li className="text-base cursor-pointer">{item.title}</li>
-                </div>
-              ) : (
-                <Link to={item.link} className="flex flex-col items-center">
-                  <li className="c-green text-2xl cursor-pointer">
-                    {item.icon}
-                  </li>
-                  <li className="text-base cursor-pointer">{item.title}</li>
-                </Link>
-              )}
-            </ul>
+              item={item}
+              handleCreateClick={handleCreateClick}
+            />
           ))}
 
-          <ul className="flex flex-col items-center justify-center">
-            <li className="c-green text-2xl cursor-pointer">
-              <FiSearch />
-            </li>
-            <li>Search</li>
-          </ul>
-          <ul className="flex flex-col items-center justify-center">
-            <li
-              onClick={handleUserIconClick}
-              className="w-14 h-14 flex items-center justify-center c-black text-2xl rounded-full bc-green cursor-pointer relative"
-            >
-              <FaRegUser />
-            </li>
-            <li className="text-xs mt-2">
-              {user?.email
-                ? user.email.length > MAX_AUTHOR_LENGTH
-                  ? `${user.email.slice(0, MAX_AUTHOR_LENGTH)}...`
-                  : user.email
-                : "Anonymous"}
-            </li>
-          </ul>
+          <UserMenuIcon
+            onClick={handleUserIconClick}
+            user={user}
+            MAX_AUTHOR_LENGTH={MAX_AUTHOR_LENGTH}
+          />
         </div>
       </div>
 
+      {showUserModal && (
+        <UserModal
+          user={user}
+          onLogout={logout}
+          onClose={handleCloseModal}
+          modalRef={modalRef}
+        />
+      )}
+
       {!user && (
-        <div
-          ref={menuRef}
-          className={`absolute bottom-16 left-0 rounded-e-md p-3 
-          transform transition-transform duration-500 ease-in-out -z-10 ${
-            showUserMenu
-              ? "translate-x-[8.3em] opacity-100"
-              : "-translate-x-full opacity-100"
-          }`}
-        >
-          {layoutData.sidebar.auth.map((item, index) => (
-            <Link
-              key={index}
-              to={item.link}
-              onClick={handleCloseMenu}
-              className={`block w-full py-2 px-4 text-center mb-2 rounded-md ${
-                item.title === "Register"
-                  ? "c-black bc-green"
-                  : "c-green border border-green bc-black"
-              }`}
-            >
-              {item.title}
-            </Link>
-          ))}
-        </div>
+        <AuthMenu
+          menuRef={menuRef}
+          showUserMenu={showUserMenu}
+          handleCloseMenu={handleCloseMenu}
+        />
       )}
     </div>
   );
